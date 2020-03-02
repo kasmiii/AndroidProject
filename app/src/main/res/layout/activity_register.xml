@@ -63,7 +63,7 @@
         android:layout_marginLeft="15dp"
         android:layout_marginRight="15dp"
         android:hint="Username"
-        android:inputType="number"
+        android:inputType="text"
         android:layout_marginTop="15dp"
         android:textColor="@color/colorPrimaryDark"
         android:textColorHint="@color/colorPrimary"

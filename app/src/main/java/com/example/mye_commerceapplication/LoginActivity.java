@@ -4,6 +4,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import com.rey.material.widget.CheckBox;
 import android.widget.Toast;
 import android.app.ProgressDialog;
 import android.os.Bundle;
@@ -14,17 +15,22 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.example.mye_commerceapplication.Model.Users;
+import com.example.mye_commerceapplication.Prevalent.Prevalent;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import io.paperdb.Paper;
+
 public class LoginActivity extends AppCompatActivity {
 
     private Button loginButton;
     private EditText phoneNumber,password;
     private ProgressDialog loadingDialog;
+    private CheckBox chkBoxRememberMe;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,6 +41,10 @@ public class LoginActivity extends AppCompatActivity {
         password=this.findViewById(R.id.login_password_input);
 
         loginButton=this.findViewById(R.id.login_btn);
+
+        chkBoxRememberMe=this.findViewById(R.id.remember_me_chkb);
+
+        Paper.init(this);
 
         loadingDialog=new ProgressDialog(this);
 
@@ -68,6 +78,13 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     private void allowAccessToAccount(final String _phone,final String _password){
+
+        if(chkBoxRememberMe.isChecked()){
+
+            Paper.book().write(Prevalent.UserPhoneKey, _phone);
+            Paper.book().write(Prevalent.UserPasswordKey, _password);
+            //sauvegarde des informations de user actuel
+        }
 
         DatabaseReference RootRef;
         RootRef= FirebaseDatabase.getInstance().getReference();

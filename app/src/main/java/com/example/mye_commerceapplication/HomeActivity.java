@@ -1,14 +1,12 @@
 package com.example.mye_commerceapplication;
 import android.content.Intent;
 import android.os.Bundle;
-
 import com.example.mye_commerceapplication.Model.Product;
 import com.example.mye_commerceapplication.Prevalent.Prevalent;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
 import android.view.MenuItem;
 import android.view.View;
-
 import androidx.annotation.NonNull;
 import androidx.core.view.GravityCompat;
 import androidx.navigation.ui.AppBarConfiguration;
@@ -18,7 +16,6 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
@@ -34,7 +31,7 @@ import java.util.ArrayList;
 
 import io.paperdb.Paper;
 
-public class HomeActivity extends AppCompatActivity implements ProductsAdapter.OnProductListener {
+public class HomeActivity extends AppCompatActivity implements ProductsAdapter.OnProductListener,NavigationView.OnNavigationItemSelectedListener {
 
     private AppBarConfiguration mAppBarConfiguration;
 
@@ -53,7 +50,6 @@ public class HomeActivity extends AppCompatActivity implements ProductsAdapter.O
 
         mProductsRef= FirebaseDatabase.getInstance().getReference("Products");
 
-
         Paper.init(this);
         setSupportActionBar(toolbar);
         FloatingActionButton fab = findViewById(R.id.fab);
@@ -68,6 +64,9 @@ public class HomeActivity extends AppCompatActivity implements ProductsAdapter.O
 
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
         NavigationView navigationView = findViewById(R.id.nav_view);
+//        navigationView.setNavigationItemSelectedListener(HomeActivity.this);
+
+        navigationView.setNavigationItemSelectedListener(this);
 
         View headerView=navigationView.getHeaderView(0);
         TextView usernameTextView=headerView.findViewById(R.id.user_profile_name);
@@ -87,12 +86,12 @@ public class HomeActivity extends AppCompatActivity implements ProductsAdapter.O
         }
     }
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item)
-    {
-        int id = item.getItemId();
-        return super.onOptionsItemSelected(item);
-    }
+//    @Override
+//    public boolean onOptionsItemSelected(MenuItem item)
+//    {
+//        int id = item.getItemId();
+//        return super.onOptionsItemSelected(item);
+//    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -107,7 +106,7 @@ public class HomeActivity extends AppCompatActivity implements ProductsAdapter.O
     }
 
     @SuppressWarnings("StatementWithEmptyBody")
-    public boolean onNavigationItemSelected(MenuItem item)
+    public boolean onNavigationItemSelected(@NonNull MenuItem item)
     {
         // Handle navigation view item clicks here.
         int id = item.getItemId();
@@ -126,8 +125,9 @@ public class HomeActivity extends AppCompatActivity implements ProductsAdapter.O
         }
         else if (id == R.id.nav_settings)
         {
-            //Intent intent = new Intent(HomeActivity.this, SettinsActivity.class);
-            //startActivity(intent);
+            //Toast.makeText(this, "vous avez clique le bouton settings", Toast.LENGTH_SHORT).show();
+            Intent intent = new Intent(HomeActivity.this, SettingsActivity.class);
+            startActivity(intent);
         }
 
         else if(id==R.id.nav_boutique){

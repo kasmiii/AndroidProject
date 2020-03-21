@@ -16,6 +16,7 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
@@ -23,6 +24,8 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.view.Menu;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -30,8 +33,8 @@ import android.widget.Toast;
 import java.util.ArrayList;
 
 import io.paperdb.Paper;
-
-public class HomeActivity extends AppCompatActivity implements ProductsAdapter.OnProductListener,NavigationView.OnNavigationItemSelectedListener {
+//ProductsAdapter.OnProductListener,
+public class HomeActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
     private AppBarConfiguration mAppBarConfiguration;
 
@@ -39,6 +42,10 @@ public class HomeActivity extends AppCompatActivity implements ProductsAdapter.O
     private RecyclerView listView;
     private ArrayList<Product> list_products;
 
+    private EditText searchView;
+    private Button homeSearchbtn;
+
+    private String word;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,8 +55,23 @@ public class HomeActivity extends AppCompatActivity implements ProductsAdapter.O
         Toolbar toolbar = findViewById(R.id.toolbar);
         toolbar.setTitle("Home");
 
-        mProductsRef= FirebaseDatabase.getInstance().getReference("Products");
+        //searchView=(EditText) this.findViewById(R.id.home_search_text);
+        //word=searchView.getText().toString();
+        //Prevalent.searchedword=word;
 
+//        homeSearchbtn=this.findViewById(R.id.home_search_btn);
+//        homeSearchbtn.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                Toast.makeText(HomeActivity.this, "searched word is : "+word, Toast.LENGTH_SHORT).show();
+//                //for reloading activity
+//                Prevalent.searchedword="description1";
+//                finish();
+//                startActivity(getIntent());
+//            }
+//        });
+
+        mProductsRef= FirebaseDatabase.getInstance().getReference("Products");
         Paper.init(this);
         setSupportActionBar(toolbar);
         FloatingActionButton fab = findViewById(R.id.fab);
@@ -85,13 +107,6 @@ public class HomeActivity extends AppCompatActivity implements ProductsAdapter.O
             super.onBackPressed();
         }
     }
-
-//    @Override
-//    public boolean onOptionsItemSelected(MenuItem item)
-//    {
-//        int id = item.getItemId();
-//        return super.onOptionsItemSelected(item);
-//    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -143,7 +158,6 @@ public class HomeActivity extends AppCompatActivity implements ProductsAdapter.O
             finish();
         }
 
-
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
@@ -158,16 +172,38 @@ public class HomeActivity extends AppCompatActivity implements ProductsAdapter.O
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
 
+                //if(Prevalent.searchedword.equals("")){
+                    //Toast.makeText(HomeActivity.this, " "+Prevalent.searchedword, Toast.LENGTH_SHORT).show();
                 for (DataSnapshot n:dataSnapshot.getChildren()){
                     Product note=n.getValue(Product.class);
                     list_products.add(note);
-
                 }
+                //}
+//                else {
+//                    //Toast.makeText(HomeActivity.this, " "+Prevalent.searchedword, Toast.LENGTH_SHORT).show();
+//
+//                    for (DataSnapshot n:dataSnapshot.getChildren()){
+//                        if(n.child("description").getValue().equals(Prevalent.searchedword)){
+//                            Product note=n.getValue(Product.class);
+//                            list_products.add(note);
+//                        }
+//                    }
+//                }
+
+                /*for (DataSnapshot n:dataSnapshot.getChildren()){
+
+                    if(n.child("description").getValue().equals("description1")){
+                        Product note=n.getValue(Product.class);
+                        list_products.add(note);
+                    }
+                }*/
+
                 listView =findViewById(R.id.recycler_menu);
                 listView.setLayoutManager(new LinearLayoutManager(HomeActivity.this, RecyclerView.VERTICAL,false));
 
-                ProductsAdapter noteAdapter=new ProductsAdapter(HomeActivity.this,list_products,HomeActivity.this);
-                listView.setAdapter(noteAdapter);
+                ProductsAdapter productsAdapter=new ProductsAdapter(HomeActivity.this,list_products);//,HomeActivity.this);
+                listView.setAdapter(productsAdapter);
+
             }
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
@@ -176,8 +212,27 @@ public class HomeActivity extends AppCompatActivity implements ProductsAdapter.O
         });
     }
 
-    public void onProductClick(int position) {
-        Toast.makeText(this, "vous avez clique l'item num : "+position, Toast.LENGTH_SHORT).show();
+//    @Override
+//    public void onProductClick(int position) {
+//        System.out.println("click product on :"+position);//marche tres bien
+//        Toast.makeText(this, "vous avez clique l'item num : "+position, Toast.LENGTH_SHORT).show();
+//        //text treatment here ...
+//
+//        Intent intent = new Intent(this,ProductDetailActivity.class);
+//        intent.putExtra("pid",list_products.get(position).getPid());
+//        startActivity(intent);
+//    }
 
-    }
+//    @Override
+//    public void onProductClick(int position) {
+//        System.out.println("click product on :"+position);//marche tres bien
+//        Toast.makeText(this, "vous avez clique l'item num : "+position, Toast.LENGTH_SHORT).show();
+////text treatment here ...
+//
+//        Intent intent = new Intent(this,ProductDetailActivity.class);
+//        intent.putExtra("pid",list_products.get(position).getPid());
+//        startActivity(intent);
+//
+//    }
+
 }

@@ -2,14 +2,14 @@ package com.example.mye_commerceapplication.Model;
 
 public class Product
 {
-    private String pname, description, price, image, category, pid, date, time;
-
+    private String pid, pname, description, price, image, category, date, time,phonenumber;
+//Produit=(product_id,tel_number,price,pname,description,promotion,category,size)
     public Product()
     {
 
     }
 
-    public Product(String pname, String description, String price, String image, String category, String pid, String date, String time) {
+    public Product(String pname, String description, String price, String image, String category, String pid, String date, String time,String phonenumber) {
         this.pname = pname;
         this.description = description;
         this.price = price;
@@ -18,6 +18,7 @@ public class Product
         this.pid = pid;
         this.date = date;
         this.time = time;
+        this.phonenumber=phonenumber;
     }
 
 
@@ -83,5 +84,13 @@ public class Product
 
     public void setTime(String time) {
         this.time = time;
+    }
+
+    public String getPhonenumber() {
+        return phonenumber;
+    }
+
+    public void setPhonenumber(String phonenumber) {
+        this.phonenumber = phonenumber;
     }
 }

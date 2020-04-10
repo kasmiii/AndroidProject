@@ -13,6 +13,8 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 import com.example.mye_commerceapplication.Model.Product;
+import com.squareup.picasso.Picasso;
+
 import java.util.ArrayList;
 
  class ProductsAdapter extends RecyclerView.Adapter<ProductsAdapter.ViewHolder> {
@@ -48,7 +50,9 @@ import java.util.ArrayList;
         holder.product_name.setText(product.getPname());
         holder.product_description.setText(product.getDescription());
         holder.product_price.setText(product.getPrice());
-        holder.product_image.setImageResource(R.drawable.tshirtt);
+        //holder.product_image.setImageResource(R.drawable.tshirtt);
+//set an image with Picasso
+        Picasso.get().load(product.getImage()).into(holder.product_image);
 
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override

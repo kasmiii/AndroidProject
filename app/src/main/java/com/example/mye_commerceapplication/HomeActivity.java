@@ -4,7 +4,8 @@ import android.os.Bundle;
 import com.example.mye_commerceapplication.Model.Product;
 import com.example.mye_commerceapplication.Prevalent.Prevalent;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.google.android.material.snackbar.Snackbar;
+
+import android.text.TextUtils;
 import android.view.MenuItem;
 import android.view.View;
 import androidx.annotation.NonNull;
@@ -31,20 +32,16 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
-
 import io.paperdb.Paper;
-//ProductsAdapter.OnProductListener,
+
 public class HomeActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
     private AppBarConfiguration mAppBarConfiguration;
-
     private DatabaseReference mProductsRef;
     private RecyclerView listView;
     private ArrayList<Product> list_products;
-
     private EditText searchView;
     private Button homeSearchbtn;
-
     private String word;
 
     @Override
@@ -55,21 +52,29 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
         Toolbar toolbar = findViewById(R.id.toolbar);
         toolbar.setTitle("Home");
 
-        //searchView=(EditText) this.findViewById(R.id.home_search_text);
-        //word=searchView.getText().toString();
+        searchView=this.findViewById(R.id.home_search_text);
+        word=searchView.getText().toString();
         //Prevalent.searchedword=word;
 
-//        homeSearchbtn=this.findViewById(R.id.home_search_btn);
-//        homeSearchbtn.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                Toast.makeText(HomeActivity.this, "searched word is : "+word, Toast.LENGTH_SHORT).show();
-//                //for reloading activity
-//                Prevalent.searchedword="description1";
-//                finish();
-//                startActivity(getIntent());
-//            }
-//        });
+
+        homeSearchbtn=this.findViewById(R.id.home_search_btn);
+        homeSearchbtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                if(!TextUtils.isEmpty(word)) {
+
+                    Toast.makeText(HomeActivity.this, "searched word is : " + word, Toast.LENGTH_SHORT).show();
+                    Intent intent = new Intent(HomeActivity.this, CartActivity.class);
+
+                    intent.putExtra("product_description",word);
+                    startActivity(intent);
+                }
+                else{
+                    Toast.makeText(HomeActivity.this, "please enter a valid searched product !", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
 
         mProductsRef= FirebaseDatabase.getInstance().getReference("Products");
         Paper.init(this);
@@ -79,14 +84,14 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
+                //redirection vers la page de commandes
+                Intent intent=new Intent(HomeActivity.this,CartActivity.class);
+                startActivity(intent);
             }
         });
 
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
         NavigationView navigationView = findViewById(R.id.nav_view);
-//        navigationView.setNavigationItemSelectedListener(HomeActivity.this);
 
         navigationView.setNavigationItemSelectedListener(this);
 
@@ -171,7 +176,6 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
         mProductsRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-
                 //if(Prevalent.searchedword.equals("")){
                     //Toast.makeText(HomeActivity.this, " "+Prevalent.searchedword, Toast.LENGTH_SHORT).show();
                 for (DataSnapshot n:dataSnapshot.getChildren()){
@@ -211,28 +215,5 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
             }
         });
     }
-
-//    @Override
-//    public void onProductClick(int position) {
-//        System.out.println("click product on :"+position);//marche tres bien
-//        Toast.makeText(this, "vous avez clique l'item num : "+position, Toast.LENGTH_SHORT).show();
-//        //text treatment here ...
-//
-//        Intent intent = new Intent(this,ProductDetailActivity.class);
-//        intent.putExtra("pid",list_products.get(position).getPid());
-//        startActivity(intent);
-//    }
-
-//    @Override
-//    public void onProductClick(int position) {
-//        System.out.println("click product on :"+position);//marche tres bien
-//        Toast.makeText(this, "vous avez clique l'item num : "+position, Toast.LENGTH_SHORT).show();
-////text treatment here ...
-//
-//        Intent intent = new Intent(this,ProductDetailActivity.class);
-//        intent.putExtra("pid",list_products.get(position).getPid());
-//        startActivity(intent);
-//
-//    }
 
 }

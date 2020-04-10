@@ -1,6 +1,7 @@
 package com.example.mye_commerceapplication;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
@@ -18,11 +19,14 @@ import com.example.mye_commerceapplication.Prevalent.Prevalent;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
+import com.squareup.picasso.Picasso;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -37,21 +41,20 @@ public class ProductDetailActivity extends AppCompatActivity {
     private ElegantNumberButton numberButton;
     private TextView description_product,name_product,price_product;
 
+    private boolean ligneCommandeExist;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_product_detail);
 
         productId=getIntent().getStringExtra("pid");
-
         addToCart=this.findViewById(R.id.add_product_cart);
         product_image=this.findViewById(R.id.product_image_detail);
         numberButton=this.findViewById(R.id.number_btn);
         description_product=this.findViewById(R.id.product_description_details);
-
         name_product=this.findViewById(R.id.product_name_details);
         price_product=this.findViewById(R.id.product_price_details);
-
 
         getProductId(productId);
         addToCart.setOnClickListener(new View.OnClickListener() {
@@ -64,46 +67,63 @@ public class ProductDetailActivity extends AppCompatActivity {
         });
     }
 
-    public void addProductToCart(String productId) {
 
-        DatabaseReference mRefLigneCommande;
-        mRefLigneCommande=FirebaseDatabase.getInstance().getReference().child("ligneCommande");
+        public void addProductToCart(final String productId) {
 
-        final HashMap<String,String> hashMap=new HashMap<>();
+            ligneCommandeExist=false;
+            final DatabaseReference mRefLigneCommande;
+            mRefLigneCommande=FirebaseDatabase.getInstance().getReference();//.child("ligneCommande");
 
-        DateFormat df = new SimpleDateFormat("dd/MM/yy HH:mm:ss");
-        Date dateobj = new Date();
-        String idLigneCommande;
-        idLigneCommande=mRefLigneCommande.push().getKey();
-        LigneCommande ligneCommande=new LigneCommande(idLigneCommande,df.format(dateobj),productId,numberButton.getNumber(),Prevalent.currentOnlineUser.getPhone());
+            final HashMap<String,String> hashMap=new HashMap<>();
 
-//        hashMap.put("idLignCommande",idLigneCommande);
-//        hashMap.put("date",df.format(dateobj));
-//        hashMap.put("productId",productId);
-//        hashMap.put("quantity",numberButton.getNumber());
-//        hashMap.put("telNumber", Prevalent.currentOnlineUser.getPhone());
+            DateFormat df = new SimpleDateFormat("dd/MM/yy HH:mm:ss");
+            Date dateobj = new Date();
+            final String idLigneCommande;
+            //idLigneCommande=mRefLigneCommande.child("ligneCommande").child(Prevalent.currentOnlineUser.getPhone()).push().getKey();
+            idLigneCommande=Prevalent.currentOnlineUser.getPhone()+productId;
+            final LigneCommande ligneCommande=new LigneCommande(idLigneCommande,df.format(dateobj),productId,numberButton.getNumber(),Prevalent.currentOnlineUser.getPhone());
 
-        mRefLigneCommande.child(idLigneCommande).setValue(ligneCommande).addOnCompleteListener(new OnCompleteListener<Void>() {
-            @Override
-            public void onComplete(@NonNull Task<Void> task) {
-                if(task.isSuccessful()){
-                    Toast.makeText(ProductDetailActivity.this, "added to cart list successfully ...", Toast.LENGTH_SHORT).show();
-                Intent intent=new Intent(ProductDetailActivity.this,HomeActivity.class);
-                startActivity(intent);
+            mRefLigneCommande.addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+
+
+                    if(dataSnapshot.child("ligneCommande").child(Prevalent.currentOnlineUser.getPhone()).child(idLigneCommande).exists()){
+
+                        mRefLigneCommande.child("ligneCommande").child(Prevalent.currentOnlineUser.getPhone()).child(idLigneCommande).child("quantity").setValue(numberButton.getNumber()).addOnCompleteListener(new OnCompleteListener<Void>() {
+                            @Override
+                            public void onComplete(@NonNull Task<Void> task) {
+                                if (task.isSuccessful()){
+                                    Toast.makeText(ProductDetailActivity.this, "Command Updated Successfully", Toast.LENGTH_SHORT).show();
+
+                                }
+                            }
+                        });
+
+                    }
+                    //if(ligneCommandeExist==false){
+                    //Toast.makeText(ProductDetailActivity.this, "New Command", Toast.LENGTH_SHORT).show();
+                    mRefLigneCommande.child("ligneCommande").child(Prevalent.currentOnlineUser.getPhone()).child(idLigneCommande).setValue(ligneCommande).addOnCompleteListener(new OnCompleteListener<Void>() {
+                        @Override
+                        public void onComplete(@NonNull Task<Void> task) {
+                            if (task.isSuccessful()) {
+                                Toast.makeText(ProductDetailActivity.this, "added to cart list successfully ...", Toast.LENGTH_SHORT).show();
+                                Intent intent = new Intent(ProductDetailActivity.this, CartActivity.class);
+                                startActivity(intent);
+                            }
+                        }
+                    });
+
+
                 }
-            }
-        });
 
-        //hashMap.put("",);
-        //hashMap.put("",);
+                @Override
+                public void onCancelled(@NonNull DatabaseError databaseError) {
 
+                }
+            });
+        }
 
-
-
-
-        //System.out.println(df.format(dateobj));
-
-    }
 
     private void getProductId(final String productId) {
 
@@ -119,8 +139,8 @@ public class ProductDetailActivity extends AppCompatActivity {
                     description_product.setText(product.getDescription());
                     price_product.setText(product.getPrice());
                     name_product.setText(product.getPname());
-                    product_image.setImageResource(R.drawable.tshirtt);
-
+                    //product_image.setImageResource(R.drawable.tshirtt);
+                    Picasso.get().load(product.getImage()).into(product_image);
                 }
             }
 

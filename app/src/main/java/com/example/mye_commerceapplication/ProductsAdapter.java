@@ -1,6 +1,5 @@
 package com.example.mye_commerceapplication;
 
-import android.content.ClipboardManager;
 import android.content.Context;
 import android.content.Intent;
 import android.view.LayoutInflater;
@@ -8,7 +7,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -21,19 +19,17 @@ import java.util.ArrayList;
 
      public Context context;
      public ArrayList<Product> list;
-     //public OnProductListener mOnProductListener;
 
      public ProductsAdapter(Context context, ArrayList<Product> list){//, OnProductListener mOnProductListener) {
          this.context = context;
          this.list = list;
-       //  this.mOnProductListener = mOnProductListener;
      }
 
      @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View product_view= LayoutInflater.from(context).inflate(R.layout.product_items_layout,parent,false);
-        return new ViewHolder(product_view);//,mOnProductListener);
+        return new ViewHolder(product_view);
     }
 
     @Override

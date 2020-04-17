@@ -56,7 +56,6 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
         word=searchView.getText().toString();
         //Prevalent.searchedword=word;
 
-
         homeSearchbtn=this.findViewById(R.id.home_search_btn);
         homeSearchbtn.setOnClickListener(new View.OnClickListener() {
             @Override

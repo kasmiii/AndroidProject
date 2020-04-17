@@ -1,5 +1,6 @@
 package com.example.mye_commerceapplication.Prevalent;
 
+import com.example.mye_commerceapplication.Model.LigneCommande;
 import com.example.mye_commerceapplication.Model.Product;
 import com.example.mye_commerceapplication.Model.Users;
 
@@ -10,5 +11,6 @@ public static Users currentOnlineUser;
     public static Product product;
     public static final String UserPhoneKey = "UserPhone";
     public static final String UserPasswordKey = "UserPassword";
+    public static LigneCommande ligneCommande;
 
 }

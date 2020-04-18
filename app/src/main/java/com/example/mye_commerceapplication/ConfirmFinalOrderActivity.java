@@ -50,6 +50,9 @@ public class ConfirmFinalOrderActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 checkFields();
+                //affichage de texte pour le feliciter le client de ses nouveaux achats
+                Intent intent=new Intent(ConfirmFinalOrderActivity.this,SalesActivity.class);
+                startActivity(intent);
             }
         });
 
@@ -139,8 +142,8 @@ public class ConfirmFinalOrderActivity extends AppCompatActivity {
                         @Override
                         public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                             Product p= dataSnapshot.getValue(Product.class);
-                            String s=dataSnapshot.getKey();
-                            System.out.println("le key de l'objet trouve est : "+s);
+                            //String s=dataSnapshot.getKey();
+                            //System.out.println("le key de l'objet trouve est : "+s);
                             final String phoneSeller = p.getPhonenumber();
 
                             Map<String ,String> map=new HashMap<>();
@@ -149,9 +152,10 @@ public class ConfirmFinalOrderActivity extends AppCompatActivity {
                             map.put("productId",ligne.getProductId());
                             map.put("quantity",ligne.getQuantity());
                             map.put("telNumberClient",ligne.getTelNumber());
+                            map.put("telNumberVendeur",phoneSeller);
                             map.put("status","not shipped");
 
-                            DatabaseReference mRefVentes=FirebaseDatabase.getInstance().getReference("Ventes").child(phoneSeller);
+                            DatabaseReference mRefVentes=FirebaseDatabase.getInstance().getReference("Ventes");
                             mRefVentes.child(ligne.getIdLignCommande()).setValue(map);
 
                         }

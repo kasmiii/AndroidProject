@@ -208,6 +208,7 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
                 listView.setAdapter(productsAdapter);
 
             }
+
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
 

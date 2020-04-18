@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     android:layout_width="match_parent"
-    android:layout_height="100dp"
+    android:layout_height="350dp"
     app:cardElevation="15dp"
     android:layout_margin="10dp"
     >
@@ -12,22 +12,20 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-
         <ImageView
-            android:id="@+id/product_image"
+            android:id="@+id/shopping_product_image"
             android:layout_width="match_parent"
             android:layout_height="200dp"
             android:scaleType="centerCrop"
             android:layout_marginTop="2dp"
             />
 
-
         <TextView
-            android:id="@+id/product_name"
+            android:id="@+id/shopping_product_name"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Product Name"
-            android:layout_below="@+id/product_image"
+            android:layout_below="@+id/shopping_product_image"
             android:textAlignment="center"
             android:textSize="20dp"
             android:textStyle="bold"
@@ -36,21 +34,10 @@
 
 
         <TextView
-            android:id="@+id/product_price"
+            android:id="@+id/shopping_product_description"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/product_image"
-            android:text="Product Price"
-            android:textAlignment="center"
-            android:textSize="18dp"
-            android:textColor="@color/colorPrimaryDark"
-            />
-
-        <TextView
-            android:id="@+id/product_description"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/product_price"
+            android:layout_below="@+id/shopping_product_name"
             android:text="Product Description"
             android:layout_marginTop="2dp"
             android:textAlignment="center"
@@ -58,6 +45,37 @@
             android:textColor="@color/colorPrimaryDark"
             />
 
+        <TextView
+            android:id="@+id/shopping_product_quantity"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/shopping_product_description"
+            android:text="quantity"
+            android:textSize="18dp"
+            android:layout_marginTop="5dp"
+            android:textColor="@color/colorPrimaryDark"
+            />
+
+        <TextView
+            android:id="@+id/shopping_product_price"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="18dp"
+            android:layout_marginLeft="300dp"
+            android:layout_marginTop="130dp"
+            android:textColor="@color/colorPrimaryDark"
+            />
+
+        <Button
+            android:id="@+id/shopping_status_btn"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="status"
+            android:layout_marginTop="10dp"
+            android:layout_below="@+id/shopping_product_quantity"
+            android:textSize="14sp"
+            android:textStyle="bold"
+            />
 
     </RelativeLayout>
 

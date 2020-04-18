@@ -56,47 +56,30 @@ import java.util.ArrayList;
         System.out.println("click product on :"+position+"  le pid est : "+product.getPid());//marche tres bien
         //Toast.makeText(H, "vous avez clique l'item num : "+position, Toast.LENGTH_SHORT).show();
         //text treatment here ...
-
         Intent intent = new Intent(context,ProductDetailActivity.class);
         intent.putExtra("pid",product.getPid());
         context.startActivity(intent);
-
             }
         });
 
     }
 
+    class ViewHolder extends RecyclerView.ViewHolder {// implements View.OnClickListener
 
-    class ViewHolder extends RecyclerView.ViewHolder{// implements View.OnClickListener
+        //OnProductListener onProductListener;
+        TextView product_name;
+        TextView product_description;
+        TextView product_price;
+        ImageView product_image;
 
-         //OnProductListener onProductListener;
-         TextView product_name;
-         TextView product_description;
-         TextView product_price;
-         ImageView product_image;
-
-        public ViewHolder(@NonNull View itemView){//,OnProductListener onProductListener) {
+        public ViewHolder(@NonNull View itemView) {//,OnProductListener onProductListener) {
 
             super(itemView);
-            //this.onProductListener=onProductListener;
-
-            product_name=itemView.findViewById(R.id.product_name);
-            product_price=itemView.findViewById(R.id.product_price);
-            product_description=itemView.findViewById(R.id.product_description);
-            product_image=itemView.findViewById(R.id.product_image);
+            product_name = itemView.findViewById(R.id.product_name);
+            product_price = itemView.findViewById(R.id.product_price);
+            product_description = itemView.findViewById(R.id.product_description);
+            product_image = itemView.findViewById(R.id.product_image);
 
         }
-
-//        @Override
-//        public void onClick(View v) {
-//            onProductListener.onProductClick(getAdapterPosition());
-//            //Toast.makeText(context, "hello u clicked me !", Toast.LENGTH_SHORT).show();
-//        }
     }
-
-//    public interface OnProductListener{
-//
-//        void onProductClick(int position);
-//
-//    }
 }

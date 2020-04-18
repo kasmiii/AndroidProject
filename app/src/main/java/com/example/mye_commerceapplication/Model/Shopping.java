@@ -2,15 +2,19 @@ package com.example.mye_commerceapplication.Model;
 
 public class Shopping {
 
-    private String date,idLignCommande,productId,quantity,status,telNumberClient;
+    private String date,idLignCommande,productId,quantity,status,telNumberClient,telNumberVendeur;
 
-    public Shopping(String date, String idLignCommande, String productId, String quantity, String status, String telNumberClient) {
+    public Shopping() {
+    }
+
+    public Shopping(String date, String idLignCommande, String productId, String quantity, String status, String telNumberClient, String telNumberVendeur) {
         this.date = date;
         this.idLignCommande = idLignCommande;
         this.productId = productId;
         this.quantity = quantity;
         this.status = status;
         this.telNumberClient = telNumberClient;
+        this.telNumberVendeur=telNumberVendeur;
     }
 
     public String getDate() {
@@ -61,6 +65,14 @@ public class Shopping {
         this.telNumberClient = telNumberClient;
     }
 
+    public String getTelNumberVendeur() {
+        return telNumberVendeur;
+    }
+
+    public void setTelNumberVendeur(String telNumberVendeur) {
+        this.telNumberVendeur = telNumberVendeur;
+    }
+
     @Override
     public String toString() {
         return "Shopping{" +
@@ -70,7 +82,7 @@ public class Shopping {
                 ", quantity='" + quantity + '\'' +
                 ", status='" + status + '\'' +
                 ", telNumberClient='" + telNumberClient + '\'' +
+                ", telNumberVendeur='" + telNumberVendeur + '\'' +
                 '}';
     }
-
 }

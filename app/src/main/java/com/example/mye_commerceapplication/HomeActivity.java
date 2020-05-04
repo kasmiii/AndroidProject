@@ -1,6 +1,8 @@
 package com.example.mye_commerceapplication;
 import android.content.Intent;
 import android.os.Bundle;
+
+import com.example.mye_commerceapplication.Model.LigneCommande;
 import com.example.mye_commerceapplication.Model.Product;
 import com.example.mye_commerceapplication.Prevalent.Prevalent;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -37,12 +39,13 @@ import io.paperdb.Paper;
 public class HomeActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
     private AppBarConfiguration mAppBarConfiguration;
-    private DatabaseReference mProductsRef;
+    private DatabaseReference mProductsRef,mSalesRef;
     private RecyclerView listView;
     private ArrayList<Product> list_products;
     private EditText searchView;
     private Button homeSearchbtn;
     private String word;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,6 +58,8 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
         searchView=this.findViewById(R.id.home_search_text);
         word=searchView.getText().toString();
         //Prevalent.searchedword=word;
+
+        Prevalent.numberOfCommandText=findViewById(R.id.number_of_commands_number);
 
         homeSearchbtn=this.findViewById(R.id.home_search_btn);
         homeSearchbtn.setOnClickListener(new View.OnClickListener() {
@@ -99,6 +104,24 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
         ImageView imageViewName=headerView.findViewById(R.id.user_profile_image);
 
         usernameTextView.setText(Prevalent.currentOnlineUser.getName());
+
+        //set the Number of Commands of Client...
+        mSalesRef=FirebaseDatabase.getInstance().getReference("ligneCommande").child(Prevalent.currentOnlineUser.getPhone());
+        mSalesRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                for (DataSnapshot data:dataSnapshot.getChildren()){
+                    //LigneCommande ligneCommande=data.getValue(LigneCommande.class);
+                    //list_carts.add(ligneCommande);
+                    Prevalent.numberOfCommands++;
+                }
+                Prevalent.numberOfCommandText.setText(String.valueOf(Prevalent.numberOfCommands));
+
+            }
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) { }
+        });
+
     }
 
 
@@ -134,9 +157,11 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
         {
 
         }
+
         else if (id == R.id.nav_orders)
         {
-
+            Intent intent=new Intent(HomeActivity.this,SalesActivity.class);
+            startActivity(intent);
         }
         else if (id == R.id.nav_categories)
         {

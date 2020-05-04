@@ -81,6 +81,10 @@ public class CartAdapter extends  RecyclerView.Adapter<CartAdapter.ViewHolder> {
                         .child(Prevalent.currentOnlineUser.getPhone())
                         .child(list_commandes.get(position).getIdLignCommande())
                         .removeValue();
+
+                //Update the value of number of Floating Button
+                Prevalent.numberOfCommands--;
+                Prevalent.numberOfCommandText.setText(String.valueOf(Prevalent.numberOfCommands));
                 //Toast.makeText(context, "root id is: "+ mRef.child("ligneCommande")
                         //.child(Prevalent.currentOnlineUser.getPhone())
                         //.child(list_commandes.get(position).getProductId()).getParent(), Toast.LENGTH_SHORT).show();

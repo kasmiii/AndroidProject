@@ -6,13 +6,16 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.cepheuen.elegantnumberbutton.view.ElegantNumberButton;
+import com.example.mye_commerceapplication.Model.Comment;
 import com.example.mye_commerceapplication.Model.LigneCommande;
 import com.example.mye_commerceapplication.Model.Product;
 import com.example.mye_commerceapplication.Prevalent.Prevalent;
@@ -41,6 +44,13 @@ public class ProductDetailActivity extends AppCompatActivity {
     private ElegantNumberButton numberButton;
     private TextView description_product,name_product,price_product;
 
+    private DatabaseReference mRefComment;
+
+    private EditText comment_text;
+    private Button comment_btn;
+    private TextView feedback_text;
+    private TextView thanksForFeedback;
+
     private boolean ligneCommandeExist;
 
     @Override
@@ -56,15 +66,49 @@ public class ProductDetailActivity extends AppCompatActivity {
         name_product=this.findViewById(R.id.product_name_details);
         price_product=this.findViewById(R.id.product_price_details);
 
+        comment_text=this.findViewById(R.id.detail_feedback_comment);
+        comment_btn=this.findViewById(R.id.detail_feedbak_btn);
+        feedback_text=this.findViewById(R.id.detail_feedback_text);
+        thanksForFeedback=this.findViewById(R.id.detail_feedback_thanks);
+
         getProductId(productId);
         addToCart.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 addProductToCart(productId);
             }
-
-
         });
+
+        mRefComment=FirebaseDatabase.getInstance().getReference("comments");
+
+        comment_btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                System.out.println("comment button is clicked");
+                final String idCmt;
+                idCmt="com_"+Prevalent.currentOnlineUser.getPhone()+"_"+productId;
+                Date dateComment=new Date();
+                DateFormat dateFormat=new SimpleDateFormat("dd/MM/yy HH:mm:ss");
+
+                if(!TextUtils.isEmpty(comment_text.toString())){
+                    Comment comment=new Comment(idCmt,dateFormat.format(dateComment).toString(),comment_text.toString(),Prevalent.currentOnlineUser.getPhone(),productId);
+                    mRefComment.child(idCmt).setValue(comment).addOnCompleteListener(new OnCompleteListener<Void>() {
+                        @Override
+                        public void onComplete(@NonNull Task<Void> task) {
+                            comment_text.setVisibility(View.INVISIBLE);
+                            comment_btn.setVisibility(View.INVISIBLE);
+                            feedback_text.setVisibility(View.INVISIBLE);
+                            thanksForFeedback.setVisibility(View.VISIBLE);
+                        }
+                    });
+                }
+
+                else{
+                    Toast.makeText(ProductDetailActivity.this, "Feedback is empty ! please tell us your feedback", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+
     }
 
 
@@ -115,6 +159,8 @@ public class ProductDetailActivity extends AppCompatActivity {
                     });
 
 
+                    Prevalent.numberOfCommands++;
+                    Prevalent.numberOfCommandText.setText(String.valueOf(Prevalent.numberOfCommands));
                 }
 
                 @Override

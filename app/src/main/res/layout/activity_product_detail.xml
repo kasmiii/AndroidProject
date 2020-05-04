@@ -77,4 +77,53 @@
         android:textSize="18dp"
         />
 
+    <TextView
+        android:id="@+id/detail_feedback_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="tell us Your Feedback"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        android:textColor="@color/colorPrimaryDark"
+        android:layout_below="@+id/number_btn"
+        android:layout_marginTop="20dp"
+        android:layout_marginLeft="20dp"
+        />
+
+    <EditText
+        android:id="@+id/detail_feedback_comment"
+        android:layout_width="300dp"
+        android:layout_height="100dp"
+        android:layout_below="@+id/detail_feedback_text"
+        android:hint="enter your feedback here..."
+        android:textStyle="italic"
+        android:layout_marginTop="5dp"
+        android:layout_marginLeft="15dp"
+        />
+
+    <Button
+        android:id="@+id/detail_feedbak_btn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/detail_feedback_text"
+        android:layout_marginLeft="300dp"
+        android:layout_marginTop="20dp"
+        android:text="Comment"
+        android:textColor="@android:color/white"
+        android:background="@color/colorPrimaryDark"
+        />
+
+    <TextView
+        android:id="@+id/detail_feedback_thanks"
+        android:layout_width="300dp"
+        android:layout_height="100dp"
+        android:layout_below="@+id/detail_feedback_text"
+        android:hint="Thank you for your feedback !"
+        android:textStyle="italic"
+        android:layout_marginTop="20dp"
+        android:layout_marginLeft="40dp"
+        android:visibility="gone"
+        />
+
+
 </RelativeLayout>

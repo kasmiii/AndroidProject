@@ -44,13 +44,13 @@ public class SalesAdapter extends RecyclerView.Adapter<SalesAdapter.ViewHolder> 
         }
 
         holder.mProductName.setText("name : "+product.getPname());
-        holder.mProductQuantity.setText("quantity: "+list.get(position).getQuantity());
-        holder.mProductPrice.setText(product.getPrice()+" DH");
+        holder.mProductQuantity.setText("quantity : "+list.get(position).getQuantity());
+        holder.mProductPrice.setText(product.getPrice()+" MAD");
         Picasso.get().load(product.getImage()).into(holder.mProductImage);
-        holder.mProductDescription.setText(product.getDescription());
+        holder.mProductDescription.setText("descriptiion : "+product.getDescription());
 
         if(list.get(position).getStatus().equals("not shipped")){
-            holder.mButtonStatus.setBackgroundColor(Color.RED);
+            holder.mButtonStatus.setBackgroundColor(Color.BLUE);
         }
         else{
             holder.mButtonStatus.setBackgroundColor(Color.GREEN);

@@ -5,6 +5,8 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import com.rey.material.widget.CheckBox;
+
+import android.widget.TextView;
 import android.widget.Toast;
 import android.app.ProgressDialog;
 import android.os.Bundle;
@@ -24,6 +26,7 @@ import io.paperdb.Paper;
 
 public class LoginActivity extends AppCompatActivity {
 
+    private TextView linkForget;
     private Button loginButton;
     private EditText phoneNumber,password;
     private ProgressDialog loadingDialog;
@@ -37,6 +40,7 @@ public class LoginActivity extends AppCompatActivity {
         phoneNumber=this.findViewById(R.id.login_phone_number_input);
         password=this.findViewById(R.id.login_password_input);
 
+        linkForget=this.findViewById(R.id.forget_password_link);
         loginButton=this.findViewById(R.id.login_btn);
 
         chkBoxRememberMe=this.findViewById(R.id.remember_me_chkb);
@@ -45,6 +49,13 @@ public class LoginActivity extends AppCompatActivity {
 
         loadingDialog=new ProgressDialog(this);
 
+        linkForget.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent=new Intent(LoginActivity.this,ForgetPasswordActivity.class);
+                startActivity(intent);
+            }
+        });
         loginButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

@@ -68,7 +68,7 @@ public class CartAdapter extends  RecyclerView.Adapter<CartAdapter.ViewHolder> {
 
         holder.productName.setText("name : "+product.getPname());
         holder.productQuantity.setText("quantity: "+list_commandes.get(position).getQuantity());
-        holder.productPrice.setText("unit price: "+product.getPrice());
+        holder.productPrice.setText("unit price: "+product.getPrice()+" MAD");
         totalPrice+=Integer.valueOf(product.getPrice())*Integer.valueOf(list_commandes.get(position).getQuantity());
 
 

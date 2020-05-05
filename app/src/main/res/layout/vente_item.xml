@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     android:layout_width="match_parent"
-    android:layout_height="350dp"
+    android:layout_height="400dp"
     app:cardElevation="15dp"
     android:layout_margin="10dp"
     >
@@ -27,11 +27,11 @@
             android:text="Product Name"
             android:layout_below="@+id/shopping_product_image"
             android:textAlignment="center"
+            android:layout_marginTop="5dp"
             android:textSize="20dp"
             android:textStyle="bold"
             android:textColor="@color/colorPrimary"
             />
-
 
         <TextView
             android:id="@+id/shopping_product_description"
@@ -39,9 +39,10 @@
             android:layout_height="wrap_content"
             android:layout_below="@+id/shopping_product_name"
             android:text="Product Description"
-            android:layout_marginTop="2dp"
+            android:layout_marginTop="5dp"
             android:textAlignment="center"
-            android:textSize="16dp"
+            android:textStyle="bold"
+            android:textSize="20dp"
             android:textColor="@color/colorPrimaryDark"
             />
 
@@ -50,8 +51,10 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@+id/shopping_product_description"
-            android:text="quantity"
-            android:textSize="18dp"
+            android:text="quantity :"
+            android:textSize="20dp"
+            android:textStyle="bold"
+            android:layout_marginLeft="40dp"
             android:layout_marginTop="5dp"
             android:textColor="@color/colorPrimaryDark"
             />
@@ -60,21 +63,24 @@
             android:id="@+id/shopping_product_price"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="18dp"
-            android:layout_marginLeft="300dp"
-            android:layout_marginTop="130dp"
-            android:textColor="@color/colorPrimaryDark"
+            android:textSize="30dp"
+            android:text="lkl"
+            android:layout_below="@id/shopping_product_description"
+            android:layout_marginLeft="170dp"
+            android:layout_marginTop="1dp"
+            android:textColor="@color/cielColor"
             />
 
         <Button
             android:id="@+id/shopping_status_btn"
-            android:layout_width="match_parent"
+            android:layout_width="200dp"
             android:layout_height="wrap_content"
             android:text="status"
-            android:layout_marginTop="10dp"
+            android:layout_marginLeft="85dp"
+            android:layout_marginTop="20dp"
             android:layout_below="@+id/shopping_product_quantity"
-            android:textSize="14sp"
-            android:textStyle="bold"
+            android:textSize="20sp"
+            android:textStyle="italic"
             />
 
     </RelativeLayout>

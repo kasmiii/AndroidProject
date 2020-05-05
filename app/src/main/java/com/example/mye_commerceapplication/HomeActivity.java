@@ -2,7 +2,6 @@ package com.example.mye_commerceapplication;
 import android.content.Intent;
 import android.os.Bundle;
 
-import com.example.mye_commerceapplication.Model.LigneCommande;
 import com.example.mye_commerceapplication.Model.Product;
 import com.example.mye_commerceapplication.Prevalent.Prevalent;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -111,8 +110,6 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 for (DataSnapshot data:dataSnapshot.getChildren()){
-                    //LigneCommande ligneCommande=data.getValue(LigneCommande.class);
-                    //list_carts.add(ligneCommande);
                     Prevalent.numberOfCommands++;
                 }
                 Prevalent.numberOfCommandText.setText(String.valueOf(Prevalent.numberOfCommands));
@@ -123,7 +120,6 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
         });
 
     }
-
 
     @Override
     public void onBackPressed() {
@@ -169,7 +165,6 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
         }
         else if (id == R.id.nav_settings)
         {
-            //Toast.makeText(this, "vous avez clique le bouton settings", Toast.LENGTH_SHORT).show();
             Intent intent = new Intent(HomeActivity.this, SettingsActivity.class);
             startActivity(intent);
         }
@@ -200,31 +195,10 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
         mProductsRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                //if(Prevalent.searchedword.equals("")){
-                    //Toast.makeText(HomeActivity.this, " "+Prevalent.searchedword, Toast.LENGTH_SHORT).show();
                 for (DataSnapshot n:dataSnapshot.getChildren()){
                     Product note=n.getValue(Product.class);
                     list_products.add(note);
                 }
-                //}
-//                else {
-//                    //Toast.makeText(HomeActivity.this, " "+Prevalent.searchedword, Toast.LENGTH_SHORT).show();
-//
-//                    for (DataSnapshot n:dataSnapshot.getChildren()){
-//                        if(n.child("description").getValue().equals(Prevalent.searchedword)){
-//                            Product note=n.getValue(Product.class);
-//                            list_products.add(note);
-//                        }
-//                    }
-//                }
-
-                /*for (DataSnapshot n:dataSnapshot.getChildren()){
-
-                    if(n.child("description").getValue().equals("description1")){
-                        Product note=n.getValue(Product.class);
-                        list_products.add(note);
-                    }
-                }*/
 
                 listView =findViewById(R.id.recycler_menu);
                 listView.setLayoutManager(new LinearLayoutManager(HomeActivity.this, RecyclerView.VERTICAL,false));

@@ -91,7 +91,7 @@ public class ProductDetailActivity extends AppCompatActivity {
                 DateFormat dateFormat=new SimpleDateFormat("dd/MM/yy HH:mm:ss");
 
                 if(!TextUtils.isEmpty(comment_text.toString())){
-                    Comment comment=new Comment(idCmt,dateFormat.format(dateComment).toString(),comment_text.toString(),Prevalent.currentOnlineUser.getPhone(),productId);
+                    Comment comment=new Comment(idCmt,dateFormat.format(dateComment).toString(),comment_text.getText().toString(),Prevalent.currentOnlineUser.getPhone(),productId);
                     mRefComment.child(idCmt).setValue(comment).addOnCompleteListener(new OnCompleteListener<Void>() {
                         @Override
                         public void onComplete(@NonNull Task<Void> task) {

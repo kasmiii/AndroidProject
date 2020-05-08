@@ -163,7 +163,10 @@ public class ConfirmFinalOrderActivity extends AppCompatActivity {
                         @Override
                         public void onCancelled(@NonNull DatabaseError databaseError) { }
                     });
+
+
                 }
+                //suppression des lignes de commande !!!!...
 
             }
 
@@ -172,7 +175,15 @@ public class ConfirmFinalOrderActivity extends AppCompatActivity {
 
             }
         });
-
+//newwwwwwwwwwww
+        mRefCommande.child(Prevalent.currentOnlineUser.getPhone()).removeValue().addOnCompleteListener(new OnCompleteListener<Void>() {
+            @Override
+            public void onComplete(@NonNull Task<Void> task) {
+                if(task.isSuccessful()){
+                    Toast.makeText(ConfirmFinalOrderActivity.this, "ligne de commande is removed sucessfully!!!", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
 
 //                            FirebaseDatabase.getInstance().getReference("ligneCommande")
 //                                    .child(Prevalent.currentOnlineUser.getPhone())

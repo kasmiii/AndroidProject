@@ -50,8 +50,9 @@ public class SalesAdapter extends RecyclerView.Adapter<SalesAdapter.ViewHolder> 
         holder.mProductDescription.setText("descriptiion : "+product.getDescription());
 
         if(list.get(position).getStatus().equals("not shipped")){
-            holder.mButtonStatus.setBackgroundColor(Color.BLUE);
+            holder.mButtonStatus.setBackgroundColor(Color.rgb(233,88,16));
         }
+
         else{
             holder.mButtonStatus.setBackgroundColor(Color.GREEN);
         }

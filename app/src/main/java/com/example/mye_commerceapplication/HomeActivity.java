@@ -1,11 +1,9 @@
 package com.example.mye_commerceapplication;
 import android.content.Intent;
 import android.os.Bundle;
-
 import com.example.mye_commerceapplication.Model.Product;
 import com.example.mye_commerceapplication.Prevalent.Prevalent;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
-
 import android.text.TextUtils;
 import android.view.MenuItem;
 import android.view.View;
@@ -18,20 +16,17 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-
 import android.view.Menu;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import java.util.ArrayList;
 import io.paperdb.Paper;
 
@@ -74,7 +69,7 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
                     startActivity(intent);
                 }
                 else{
-                    Toast.makeText(HomeActivity.this, "please enter a valid searched product !", Toast.LENGTH_SHORT).show();
+                    //Toast.makeText(HomeActivity.this, "please enter a valid searched product !", Toast.LENGTH_SHORT).show();
                 }
             }
         });

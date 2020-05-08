@@ -80,7 +80,7 @@ public class CartAdapter extends  RecyclerView.Adapter<CartAdapter.ViewHolder> {
                 mRef.child("ligneCommande")
                         .child(Prevalent.currentOnlineUser.getPhone())
                         .child(list_commandes.get(position).getIdLignCommande())
-                        .removeValue();
+                        .setValue(null);//!!!!!!
 
                 //Update the value of number of Floating Button
                 Prevalent.numberOfCommands--;

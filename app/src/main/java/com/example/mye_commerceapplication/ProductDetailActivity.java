@@ -43,7 +43,6 @@ public class ProductDetailActivity extends AppCompatActivity {
     private  ImageView product_image;
     private ElegantNumberButton numberButton;
     private TextView description_product,name_product,price_product;
-
     private DatabaseReference mRefComment;
 
     private EditText comment_text;

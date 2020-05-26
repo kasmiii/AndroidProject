@@ -14,13 +14,8 @@
     <string name="settings">Settings</string>
     <string name="myShop">My Shop</string>
     <string name="logout">Logout</string>
+    <string name="title_activity_vente_maps">Map</string>
 
-    <!-- <string name=""></string>
-    <string name=""></string>
-    <string name=""></string>
-    <string name=""></string>
-    <string name=""></string>
--->
 
 
 </resources>

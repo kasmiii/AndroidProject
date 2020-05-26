@@ -3,18 +3,22 @@ package com.example.mye_commerceapplication.Model;
 public class Shopping {
 
     private String date,idLignCommande,productId,quantity,status,telNumberClient,telNumberVendeur;
+    private double longitude;
+    private double latitude;
 
     public Shopping() {
     }
 
-    public Shopping(String date, String idLignCommande, String productId, String quantity, String status, String telNumberClient, String telNumberVendeur) {
+    public Shopping(String date, String idLignCommande, String productId, String quantity, String status, String telNumberClient, String telNumberVendeur, double longitude, double latitude) {
         this.date = date;
         this.idLignCommande = idLignCommande;
         this.productId = productId;
         this.quantity = quantity;
         this.status = status;
         this.telNumberClient = telNumberClient;
-        this.telNumberVendeur=telNumberVendeur;
+        this.telNumberVendeur = telNumberVendeur;
+        this.longitude = longitude;
+        this.latitude = latitude;
     }
 
     public String getDate() {
@@ -71,6 +75,22 @@ public class Shopping {
 
     public void setTelNumberVendeur(String telNumberVendeur) {
         this.telNumberVendeur = telNumberVendeur;
+    }
+
+    public double get_longitude() {
+        return longitude;
+    }
+
+    public void set_longitude(double _longitude) {
+        this.longitude = _longitude;
+    }
+
+    public double get_latitude() {
+        return latitude;
+    }
+
+    public void set_latitude(double _latitude) {
+        this.latitude = _latitude;
     }
 
     @Override

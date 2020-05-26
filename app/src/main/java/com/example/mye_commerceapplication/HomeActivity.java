@@ -40,7 +40,6 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
     private Button homeSearchbtn;
     private String word;
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -49,7 +48,7 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
         Toolbar toolbar = findViewById(R.id.toolbar);
         toolbar.setTitle("Home");
 
-        searchView=this.findViewById(R.id.home_search_text);
+        searchView=this.findViewById(R.id.home_find_text);
         word=searchView.getText().toString();
         //Prevalent.searchedword=word;
 
@@ -60,11 +59,9 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
             @Override
             public void onClick(View v) {
 
-                if(!TextUtils.isEmpty(word)) {
-
+                if(TextUtils.isEmpty(word)) {
                     Toast.makeText(HomeActivity.this, "searched word is : " + word, Toast.LENGTH_SHORT).show();
-                    Intent intent = new Intent(HomeActivity.this, CartActivity.class);
-
+                    Intent intent = new Intent(HomeActivity.this, SearchActivity.class);
                     intent.putExtra("product_description",word);
                     startActivity(intent);
                 }

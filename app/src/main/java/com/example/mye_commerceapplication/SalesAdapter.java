@@ -57,7 +57,13 @@ public class SalesAdapter extends RecyclerView.Adapter<SalesAdapter.ViewHolder> 
             holder.mButtonStatus.setBackgroundColor(Color.GREEN);
         }
         holder.mButtonStatus.setText(list.get(position).getStatus());
-
+        holder.mButtonStatus.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //String
+                //heeeeeeeeeeeeeeeeeeeeere .....
+            }
+        });
     }
 
     @NonNull

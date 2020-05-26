@@ -154,6 +154,8 @@ public class ConfirmFinalOrderActivity extends AppCompatActivity {
                             map.put("telNumberClient",ligne.getTelNumber());
                             map.put("telNumberVendeur",phoneSeller);
                             map.put("status","not shipped");
+                            map.put("longitude",String.valueOf(-6.8498129));
+                            map.put("latitude",String.valueOf(33.9715904));
 
                             DatabaseReference mRefVentes=FirebaseDatabase.getInstance().getReference("Ventes");
                             mRefVentes.child(ligne.getIdLignCommande()).setValue(map);

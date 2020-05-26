@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import android.os.Bundle;
+import android.widget.Toast;
 
 import com.example.mye_commerceapplication.Model.Product;
 import com.google.firebase.database.DataSnapshot;
@@ -28,8 +29,6 @@ public class SearchActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_search);
-
-
         product_searched=getIntent().getStringExtra("description");
 
     }
@@ -44,9 +43,14 @@ public class SearchActivity extends AppCompatActivity {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 for (DataSnapshot d:dataSnapshot.getChildren()){
-                    if(d.child("description").equals(product_searched)){
+                    /*if(d.child("description")){//equals(product_searched)
                         list_products.add(d.getValue(Product.class));
-
+                    }*/
+                    String str=new String(d.child("description").toString());
+                    String search=new String("homme");
+                    if(str.contains(search)){//str.indexOf(search)>-1
+                        Toast.makeText(SearchActivity.this, "un produit a ete trouve ...", Toast.LENGTH_SHORT).show();
+                        list_products.add(d.getValue(Product.class));
                     }
                 }
             }
@@ -62,4 +66,9 @@ public class SearchActivity extends AppCompatActivity {
         listView.setAdapter(productsAdapter);
 
     }
+
+    /*public boolean contains(CharSequence sequence)
+    {
+        return indexOf(sequence.toString()) > -1;
+    }*/
 }

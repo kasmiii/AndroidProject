@@ -72,7 +72,7 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
         });
 
         mProductsRef= FirebaseDatabase.getInstance().getReference("Products");
-        Paper.init(this);
+        Paper.init(this);//memorising the name and phoneof connected user...
         setSupportActionBar(toolbar);
         FloatingActionButton fab = findViewById(R.id.fab);
 
@@ -173,7 +173,6 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
             startActivity(intent);
             finish();
         }
-
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
@@ -188,9 +187,11 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 for (DataSnapshot n:dataSnapshot.getChildren()){
-                    Product note=n.getValue(Product.class);
-                    list_products.add(note);
-                }
+                        Product note = n.getValue(Product.class);
+                        if(note.getPhonenumber()!=Prevalent.currentOnlineUser.getPhone()){
+                            list_products.add(note);
+                        }
+                    }
 
                 listView =findViewById(R.id.recycler_menu);
                 listView.setLayoutManager(new LinearLayoutManager(HomeActivity.this, RecyclerView.VERTICAL,false));

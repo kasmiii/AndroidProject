@@ -28,7 +28,7 @@ public class RegisterActivity extends AppCompatActivity {
     private Button createAccount;
     private EditText userName,phoneNumber,password;
     private ProgressDialog loadingDialog;
-
+    private Button localisation;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,7 +39,15 @@ public class RegisterActivity extends AppCompatActivity {
         userName=this.findViewById(R.id.register_username_input);
         phoneNumber=this.findViewById(R.id.register_phone_number_input);
         password=this.findViewById(R.id.register_password_input);
+        localisation=this.findViewById(R.id.register_localisation_btn);
 
+        localisation.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent=new Intent(RegisterActivity.this,UserMapsActivity.class);
+                startActivity(intent);
+            }
+        });
         loadingDialog=new ProgressDialog(this);
 
         createAccount.setOnClickListener(new View.OnClickListener() {
@@ -57,6 +65,8 @@ public class RegisterActivity extends AppCompatActivity {
         String loginUser=userName.getText().toString();
         String passwordUser=password.getText().toString();
         String phoneUser=phoneNumber.getText().toString();
+        String longitude=UserMapsActivity.londitude_user;
+        String latitude=UserMapsActivity.latitude_user;
 
         if(TextUtils.isEmpty(loginUser)){
             Toast.makeText(this,"please enter your login",Toast.LENGTH_LONG).show();
@@ -73,12 +83,12 @@ public class RegisterActivity extends AppCompatActivity {
             loadingDialog.setCanceledOnTouchOutside(false);
             loadingDialog.show();
 
-            validatePhoneNumber(loginUser,phoneUser,passwordUser);
+            validatePhoneNumber(loginUser,phoneUser,passwordUser,longitude,latitude);
 
         }
     }
 
-    private void validatePhoneNumber(final String loginUser, final String phoneUser, final String passwordUser) {
+    private void validatePhoneNumber(final String loginUser, final String phoneUser, final String passwordUser,final String longitude,final String latitude) {
     final DatabaseReference RootRef;
     RootRef= FirebaseDatabase.getInstance().getReference();
     RootRef.addListenerForSingleValueEvent(new ValueEventListener() {
@@ -90,6 +100,9 @@ public class RegisterActivity extends AppCompatActivity {
                 userDataMap.put("phone",phoneUser);
                 userDataMap.put("password",passwordUser);
                 userDataMap.put("name",loginUser);
+                userDataMap.put("longitude",longitude);
+                userDataMap.put("latitude",latitude);
+
                 RootRef.child("Users").child(phoneUser).updateChildren(userDataMap).addOnCompleteListener(new OnCompleteListener<Void>() {
                     @Override
                     public void onComplete(@NonNull Task<Void> task) {
@@ -103,7 +116,6 @@ public class RegisterActivity extends AppCompatActivity {
                         else{
                             loadingDialog.dismiss();
                             Toast.makeText(RegisterActivity.this,"Ooops Error Network !",Toast.LENGTH_SHORT).show();
-
                         }
 
                     }

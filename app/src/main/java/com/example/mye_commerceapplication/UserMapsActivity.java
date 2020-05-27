@@ -2,7 +2,9 @@ package com.example.mye_commerceapplication;
 
 import androidx.fragment.app.FragmentActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
+
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
@@ -10,21 +12,23 @@ import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 
-public class VenteMapsActivity extends FragmentActivity implements OnMapReadyCallback {
+public class UserMapsActivity extends FragmentActivity implements OnMapReadyCallback {
 
     private GoogleMap mMap;
-    private Double longitude_commande,latitude_commande,longitude_vendeur,latitude_vendeur;
+
+    static String londitude_user;
+    static String latitude_user;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_vente_maps);
+        setContentView(R.layout.activity_user_maps);
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
-
     }
+
 
     /**
      * Manipulates the map once available.
@@ -39,28 +43,18 @@ public class VenteMapsActivity extends FragmentActivity implements OnMapReadyCal
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
 
-        longitude_commande=Double.valueOf(getIntent().getStringExtra("longitude_commande"));
-        latitude_commande=Double.valueOf(getIntent().getStringExtra("latitude_commande"));
-        longitude_vendeur=Double.valueOf(getIntent().getStringExtra("longitude_vendeur"));
-        latitude_vendeur=Double.valueOf(getIntent().getStringExtra("latitude_vendeur"));
         // Add a marker in Sydney and move the camera
-        LatLng command = new LatLng(latitude_commande, longitude_commande);
-        LatLng seller=new LatLng(latitude_vendeur,longitude_vendeur);
-
-        mMap.addMarker(new MarkerOptions().position(seller).title("Seller"));
-        mMap.addMarker(new MarkerOptions().position(command).title("your Command"));
-        mMap.moveCamera(CameraUpdateFactory.newLatLng(command));
-        mMap.moveCamera(CameraUpdateFactory.newLatLng(seller));
-        //detection de la longitude et latitude a l'aide de setonMapClickListener() !!!!
-
-        /*mMap.setOnMapClickListener(new GoogleMap.OnMapClickListener() {
+        LatLng sydney = new LatLng(-38, 15);
+        mMap.addMarker(new MarkerOptions().position(sydney).title("your Position"));
+        mMap.moveCamera(CameraUpdateFactory.newLatLng(sydney));
+        mMap.setOnMapClickListener(new GoogleMap.OnMapClickListener() {
             @Override
-            public void onMapClick(LatLng clickCoords) {
-                //Log.e("TAG", "Found @ " + clickCoords.latitude + " " + clickCoords.longitude);
-                System.out.println("clicked point:\n"+"latitude:\t"+clickCoords.latitude+"\nlongitude:\t"+clickCoords.longitude);
-                Intent intent =new Intent(VenteMapsActivity.this,SalesActivity.class);
+            public void onMapClick(LatLng latLng) {
+                latitude_user=String.valueOf(latLng.latitude);
+                londitude_user=String.valueOf(latLng.longitude);
+                Intent intent=new Intent(UserMapsActivity.this,RegisterActivity.class);
                 startActivity(intent);
             }
-        });*/
+        });
     }
 }

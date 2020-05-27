@@ -15,6 +15,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.mye_commerceapplication.Model.Product;
 import com.example.mye_commerceapplication.Model.Shopping;
+import com.example.mye_commerceapplication.Model.Users;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.squareup.picasso.Picasso;
@@ -28,6 +29,9 @@ public class SalesAdapter extends RecyclerView.Adapter<SalesAdapter.ViewHolder> 
     DatabaseReference mRefProduct;
     private Product product;
 
+    private String longitude_vandeur;
+    private String latitude_vendeur;
+
     public SalesAdapter(Context context, ArrayList<Shopping> list) {
         this.context = context;
         this.list = list;
@@ -40,6 +44,16 @@ public class SalesAdapter extends RecyclerView.Adapter<SalesAdapter.ViewHolder> 
         for (Product p:SalesActivity.list_produits_cart_activity){
             if(p.getPid().equals(list.get(position).getProductId())){
                 product = p;
+                break;
+            }
+        }
+
+         //final String longitude_vandeur,latitude_vendeur;
+
+        for (Users user:SalesActivity.list_users){
+            if(user.getPhone().equals(product.getPhonenumber())){
+                this.longitude_vandeur=user.getLongitude();
+                this.latitude_vendeur=user.getLatitude();
                 break;
             }
         }
@@ -62,8 +76,12 @@ public class SalesAdapter extends RecyclerView.Adapter<SalesAdapter.ViewHolder> 
             @Override
             public void onClick(View v) {
                 Intent intent=new Intent(context,VenteMapsActivity.class);
-                intent.putExtra("longitude",list.get(position).getLongitude());
-                intent.putExtra("latitude",list.get(position).getLatitude());
+                intent.putExtra("longitude_commande",list.get(position).getLongitude());
+                intent.putExtra("latitude_commande",list.get(position).getLatitude());
+                intent.putExtra("longitude_vendeur",longitude_vandeur);
+                intent.putExtra("latitude_vendeur",latitude_vendeur);
+
+                //intent.putExtra();
                 //System.out.println("longitude de la vente est: "+list.get(position).getLongitude());
                 //System.out.println("latitude de la vente est: "+list.get(position).getLatitude());
                 context.startActivity(intent);

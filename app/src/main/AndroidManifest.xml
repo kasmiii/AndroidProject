@@ -31,9 +31,11 @@
             android:value="@string/google_maps_key" />
 
         <activity
+            android:name=".UserMapsActivity"
+            android:label="@string/title_activity_user_maps"></activity>
+        <activity
             android:name=".VenteMapsActivity"
-            android:label="@string/title_activity_vente_maps">
-        </activity>
+            android:label="@string/title_activity_vente_maps"></activity>
         <activity android:name=".ForgetPasswordActivity" />
         <activity android:name=".SalesActivity" />
         <activity android:name=".ConfirmFinalOrderActivity" />

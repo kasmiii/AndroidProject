@@ -12,7 +12,7 @@
         android:layout_width="300dp"
         android:layout_height="100dp"
         android:src="@drawable/applogo"
-        android:layout_marginTop="200dp"
+        android:layout_marginTop="150dp"
         android:layout_centerHorizontal="true"
         />
 
@@ -45,7 +45,6 @@
         android:layout_marginTop="15dp"
         android:hint="Password"
         android:inputType="textPassword"
-
         android:textColor="@color/colorPrimaryDark"
         android:textColorHint="@color/colorPrimary"
         android:textSize="17sp"
@@ -71,10 +70,22 @@
         />
 
     <Button
+        android:id="@+id/register_localisation_btn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="localisation"
+        android:layout_below="@id/register_password_input"
+        android:layout_marginTop="5dp"
+        android:layout_marginLeft="150dp"
+        android:background="@drawable/buttons"
+        android:textColor="@android:color/white"
+        />
+
+    <Button
         android:id="@+id/register_btn"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/register_password_input"
+        android:layout_below="@+id/register_localisation_btn"
         android:layout_marginTop="5dp"
         android:layout_marginLeft="15dp"
         android:layout_marginRight="15dp"

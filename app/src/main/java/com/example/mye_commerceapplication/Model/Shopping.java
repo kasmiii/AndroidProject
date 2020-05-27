@@ -2,14 +2,12 @@ package com.example.mye_commerceapplication.Model;
 
 public class Shopping {
 
-    private String date,idLignCommande,productId,quantity,status,telNumberClient,telNumberVendeur;
-    private double longitude;
-    private double latitude;
+    private String date,idLignCommande,productId,quantity,status,telNumberClient,telNumberVendeur,longitude,latitude;
 
     public Shopping() {
     }
 
-    public Shopping(String date, String idLignCommande, String productId, String quantity, String status, String telNumberClient, String telNumberVendeur, double longitude, double latitude) {
+    public Shopping(String date, String idLignCommande, String productId, String quantity, String status, String telNumberClient, String telNumberVendeur, String longitude, String latitude) {
         this.date = date;
         this.idLignCommande = idLignCommande;
         this.productId = productId;
@@ -77,20 +75,20 @@ public class Shopping {
         this.telNumberVendeur = telNumberVendeur;
     }
 
-    public double get_longitude() {
+    public String getLongitude() {
         return longitude;
     }
 
-    public void set_longitude(double _longitude) {
-        this.longitude = _longitude;
+    public void setLongitude(String longitude) {
+        this.longitude = longitude;
     }
 
-    public double get_latitude() {
+    public String getLatitude() {
         return latitude;
     }
 
-    public void set_latitude(double _latitude) {
-        this.latitude = _latitude;
+    public void setLatitude(String latitude) {
+        this.latitude = latitude;
     }
 
     @Override
@@ -103,6 +101,8 @@ public class Shopping {
                 ", status='" + status + '\'' +
                 ", telNumberClient='" + telNumberClient + '\'' +
                 ", telNumberVendeur='" + telNumberVendeur + '\'' +
+                ", longitude="+longitude+"\n"+
+                ", latitude="+latitude+"\n"+
                 '}';
     }
 }

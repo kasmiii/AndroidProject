@@ -2,18 +2,25 @@ package com.example.mye_commerceapplication;
 
 import androidx.fragment.app.FragmentActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.view.MotionEvent;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.CircleOptions;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.firebase.firestore.GeoPoint;
 
 public class VenteMapsActivity extends FragmentActivity implements OnMapReadyCallback {
 
     private GoogleMap mMap;
+
+        private Double longitude;
+        private Double latitude;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -23,6 +30,7 @@ public class VenteMapsActivity extends FragmentActivity implements OnMapReadyCal
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
+
     }
 
 
@@ -39,9 +47,35 @@ public class VenteMapsActivity extends FragmentActivity implements OnMapReadyCal
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
 
+        longitude=Double.valueOf(getIntent().getStringExtra("longitude"));
+        latitude=Double.valueOf(getIntent().getStringExtra("latitude"));
         // Add a marker in Sydney and move the camera
-        LatLng sydney = new LatLng(-34, 151);
-        mMap.addMarker(new MarkerOptions().position(sydney).title("Marker in Sydney"));
-        mMap.moveCamera(CameraUpdateFactory.newLatLng(sydney));
+        LatLng order = new LatLng(latitude, longitude);
+        LatLng yourposition=new LatLng(33.1015904,-6.8498129);
+        mMap.addMarker(new MarkerOptions().position(order).title("your Order"));
+        mMap.addMarker(new MarkerOptions().position(yourposition).title("your Position"));
+        mMap.moveCamera(CameraUpdateFactory.newLatLng(order));
+        mMap.moveCamera(CameraUpdateFactory.newLatLng(yourposition));
+
+        //detection de la longitude et latitude a l'aide de setonMapClickListener() !!!!
+
+        mMap.setOnMapClickListener(new GoogleMap.OnMapClickListener() {
+            @Override
+            public void onMapClick(LatLng clickCoords) {
+                //Log.e("TAG", "Found @ " + clickCoords.latitude + " " + clickCoords.longitude);
+                System.out.println("clicked point:\n"+"latitude:\t"+clickCoords.latitude+"\nlongitude:\t"+clickCoords.longitude);
+                Intent intent =new Intent(VenteMapsActivity.this,SalesActivity.class);
+                startActivity(intent);
+            }
+        });
+    }
+
+    @Override
+    public boolean onTouchEvent(MotionEvent event) {
+        return super.onTouchEvent(event);
+        /*int X = (int)event.getX();
+        int Y = (int)event.getY();
+*/
+        //GeoPoint geoPoint = mapView.getProjection().fromPixels(X, Y);
     }
 }

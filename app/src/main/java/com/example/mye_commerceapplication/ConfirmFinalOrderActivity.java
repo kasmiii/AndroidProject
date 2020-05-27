@@ -33,7 +33,6 @@ public class ConfirmFinalOrderActivity extends AppCompatActivity {
 
     private EditText cityEdtText ,nameEditText,phoneEditText,addressEditText;
     private Button confirmOrderBtn;
-   // private String phoneSeller;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -78,7 +77,6 @@ public class ConfirmFinalOrderActivity extends AppCompatActivity {
         }
 
         else {
-            //Toast.makeText(this, "name is missing ...", Toast.LENGTH_SHORT).show();
             confirmOrder();
         }
 
@@ -126,24 +124,12 @@ public class ConfirmFinalOrderActivity extends AppCompatActivity {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 for (DataSnapshot dataSnapshot1 : dataSnapshot.getChildren()){
-                    //Prevalent.ligneCommande=dataSnapshot1.getValue(LigneCommande.class);
                     final LigneCommande ligne=dataSnapshot1.getValue(LigneCommande.class);
-
-                    //System.out.println("lignecommande trouve n: "+Prevalent.ligneCommande.getIdLignCommande());
-
-//                    DatabaseReference mRefVentes=FirebaseDatabase.getInstance().getReference("Ventes").child("3");
-//                    mRefVentes.child(Prevalent.ligneCommande.getIdLignCommande()).setValue("hello");
-                    //ici ca marche !!!
-                        //recuperer la ligne de commande
-
-
                     DatabaseReference mRefProduct = FirebaseDatabase.getInstance().getReference("Products");
                     mRefProduct.child(ligne.getProductId()).addValueEventListener(new ValueEventListener() {
                         @Override
                         public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                             Product p= dataSnapshot.getValue(Product.class);
-                            //String s=dataSnapshot.getKey();
-                            //System.out.println("le key de l'objet trouve est : "+s);
                             final String phoneSeller = p.getPhonenumber();
 
                             Map<String ,String> map=new HashMap<>();
@@ -154,30 +140,23 @@ public class ConfirmFinalOrderActivity extends AppCompatActivity {
                             map.put("telNumberClient",ligne.getTelNumber());
                             map.put("telNumberVendeur",phoneSeller);
                             map.put("status","not shipped");
-                            map.put("longitude",String.valueOf(-6.8498129));
-                            map.put("latitude",String.valueOf(33.9715904));
+                            map.put("longitude","-6.8498129");
+                            map.put("latitude","33.9715904");
 
                             DatabaseReference mRefVentes=FirebaseDatabase.getInstance().getReference("Ventes");
                             mRefVentes.child(ligne.getIdLignCommande()).setValue(map);
-
                         }
-
                         @Override
                         public void onCancelled(@NonNull DatabaseError databaseError) { }
                     });
-
-
                 }
-                //suppression des lignes de commande !!!!...
-
             }
 
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
-
             }
         });
-//newwwwwwwwwwww
+
         mRefCommande.child(Prevalent.currentOnlineUser.getPhone()).removeValue().addOnCompleteListener(new OnCompleteListener<Void>() {
             @Override
             public void onComplete(@NonNull Task<Void> task) {
@@ -187,41 +166,6 @@ public class ConfirmFinalOrderActivity extends AppCompatActivity {
             }
         });
 
-//                            FirebaseDatabase.getInstance().getReference("ligneCommande")
-//                                    .child(Prevalent.currentOnlineUser.getPhone())
-//                                    .removeValue().addOnCompleteListener(new OnCompleteListener<Void>() {
-//                                @Override
-//                                public void onComplete(@NonNull Task<Void> task) {
-//                                    if(task.isSuccessful()){
-//                                        Toast.makeText(ConfirmFinalOrderActivity.this, "your orders have been registered...", Toast.LENGTH_SHORT).show();
-//                                        Intent intent=new Intent(ConfirmFinalOrderActivity.this,CartActivity.class);
-//                                        startActivity(intent);
-//                                    }
-//                                }
-//                            });
-
-
-
     }
-
-//    public String getSeller(String idProduct){
-//        final DatabaseReference mRefProduct;
-//        mRefProduct = FirebaseDatabase.getInstance().getReference("Products").child(idProduct);
-//        mRefProduct.addValueEventListener(new ValueEventListener() {
-//            @Override
-//            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-//                Product p= dataSnapshot.getValue(Product.class);
-//                phoneSeller=p.getPhonenumber();
-//                //return phoneSeller;
-//            }
-//
-//            @Override
-//            public void onCancelled(@NonNull DatabaseError databaseError) {
-//
-//            }
-//        });
-//
-//        return phoneSeller;
-//    }
 
 }

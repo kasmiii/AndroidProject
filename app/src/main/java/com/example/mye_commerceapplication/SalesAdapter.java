@@ -1,6 +1,7 @@
 package com.example.mye_commerceapplication;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -34,7 +35,7 @@ public class SalesAdapter extends RecyclerView.Adapter<SalesAdapter.ViewHolder> 
     }
 
     @Override
-    public void onBindViewHolder(@NonNull SalesAdapter.ViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull SalesAdapter.ViewHolder holder, final int position) {
 
         for (Product p:SalesActivity.list_produits_cart_activity){
             if(p.getPid().equals(list.get(position).getProductId())){
@@ -47,7 +48,7 @@ public class SalesAdapter extends RecyclerView.Adapter<SalesAdapter.ViewHolder> 
         holder.mProductQuantity.setText("quantity : "+list.get(position).getQuantity());
         holder.mProductPrice.setText(product.getPrice()+" MAD");
         Picasso.get().load(product.getImage()).into(holder.mProductImage);
-        holder.mProductDescription.setText("descriptiion : "+product.getDescription());
+        holder.mProductDescription.setText("description : "+product.getDescription());
 
         if(list.get(position).getStatus().equals("not shipped")){
             holder.mButtonStatus.setBackgroundColor(Color.rgb(233,88,16));
@@ -60,8 +61,12 @@ public class SalesAdapter extends RecyclerView.Adapter<SalesAdapter.ViewHolder> 
         holder.mButtonStatus.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //String
-                //heeeeeeeeeeeeeeeeeeeeere .....
+                Intent intent=new Intent(context,VenteMapsActivity.class);
+                intent.putExtra("longitude",list.get(position).getLongitude());
+                intent.putExtra("latitude",list.get(position).getLatitude());
+                //System.out.println("longitude de la vente est: "+list.get(position).getLongitude());
+                //System.out.println("latitude de la vente est: "+list.get(position).getLatitude());
+                context.startActivity(intent);
             }
         });
     }

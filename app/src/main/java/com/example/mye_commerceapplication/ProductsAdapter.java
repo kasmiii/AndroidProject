@@ -35,7 +35,6 @@ import java.util.ArrayList;
     @Override
     public int getItemCount() {
         return list.size();
-
     }
 
     @Override

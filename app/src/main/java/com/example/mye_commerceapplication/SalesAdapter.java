@@ -71,6 +71,7 @@ public class SalesAdapter extends RecyclerView.Adapter<SalesAdapter.ViewHolder> 
         else{
             holder.mButtonStatus.setBackgroundColor(Color.GREEN);
         }
+
         holder.mButtonStatus.setText(list.get(position).getStatus());
         holder.mButtonStatus.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -81,9 +82,6 @@ public class SalesAdapter extends RecyclerView.Adapter<SalesAdapter.ViewHolder> 
                 intent.putExtra("longitude_vendeur",longitude_vandeur);
                 intent.putExtra("latitude_vendeur",latitude_vendeur);
 
-                //intent.putExtra();
-                //System.out.println("longitude de la vente est: "+list.get(position).getLongitude());
-                //System.out.println("latitude de la vente est: "+list.get(position).getLatitude());
                 context.startActivity(intent);
             }
         });

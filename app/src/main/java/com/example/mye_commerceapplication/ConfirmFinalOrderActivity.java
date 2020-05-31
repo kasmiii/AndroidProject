@@ -14,6 +14,7 @@ import android.widget.Toast;
 import com.example.mye_commerceapplication.Model.LigneCommande;
 import com.example.mye_commerceapplication.Model.Order;
 import com.example.mye_commerceapplication.Model.Product;
+import com.example.mye_commerceapplication.Model.Users;
 import com.example.mye_commerceapplication.Prevalent.Prevalent;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -25,14 +26,18 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class ConfirmFinalOrderActivity extends AppCompatActivity {
 
     private EditText cityEdtText ,nameEditText,phoneEditText,addressEditText;
     private Button confirmOrderBtn;
+    private ArrayList<Users> list_users;
+    private DatabaseReference mUsersRef;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,6 +49,21 @@ public class ConfirmFinalOrderActivity extends AppCompatActivity {
         phoneEditText=this.findViewById(R.id.shippement_phone_number);
         addressEditText=this.findViewById(R.id.shippement_home_address);
         confirmOrderBtn=this.findViewById(R.id.confirm_order_btn);
+
+        list_users=new ArrayList<Users>();
+
+        mUsersRef=FirebaseDatabase.getInstance().getReference("Users");
+
+        mUsersRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                for (DataSnapshot data:dataSnapshot.getChildren()){
+                    list_users.add(data.getValue(Users.class));
+                }
+            }
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) { }
+        });
 
         confirmOrderBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -117,7 +137,6 @@ public class ConfirmFinalOrderActivity extends AppCompatActivity {
             }
         });
 
-
         System.out.println("next operation .....");
 
         mRefCommande.child(Prevalent.currentOnlineUser.getPhone()).addValueEventListener(new ValueEventListener() {
@@ -132,6 +151,18 @@ public class ConfirmFinalOrderActivity extends AppCompatActivity {
                             Product p= dataSnapshot.getValue(Product.class);
                             final String phoneSeller = p.getPhonenumber();
 
+                            //recuperation des coordonnes du vendeur du produit concernee
+                            String phone_seller=ligne.getTelNumber();
+                            String longitude_user="0.00",latitude_user="0.00";
+
+                            for (Users u:list_users){
+                                if(u.getPhone().equals(phone_seller)){
+                                    longitude_user=u.getLongitude();
+                                    latitude_user=u.getLatitude();
+                                    break;
+                                }
+                            }
+
                             Map<String ,String> map=new HashMap<>();
                             map.put("idLignCommande",ligne.getIdLignCommande());
                             map.put("date",ligne.getDate());
@@ -140,8 +171,8 @@ public class ConfirmFinalOrderActivity extends AppCompatActivity {
                             map.put("telNumberClient",ligne.getTelNumber());
                             map.put("telNumberVendeur",phoneSeller);
                             map.put("status","not shipped");
-                            map.put("longitude","-6.8498129");
-                            map.put("latitude","33.9715904");
+                            map.put("longitude",longitude_user);
+                            map.put("latitude",latitude_user);
 
                             DatabaseReference mRefVentes=FirebaseDatabase.getInstance().getReference("Ventes");
                             mRefVentes.child(ligne.getIdLignCommande()).setValue(map);

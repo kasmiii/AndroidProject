@@ -188,7 +188,7 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 for (DataSnapshot n:dataSnapshot.getChildren()){
                         Product note = n.getValue(Product.class);
-                        if(note.getPhonenumber()!=Prevalent.currentOnlineUser.getPhone()){
+                        if(!note.getPhonenumber().equals(Prevalent.currentOnlineUser.getPhone())){
                             list_products.add(note);
                         }
                     }

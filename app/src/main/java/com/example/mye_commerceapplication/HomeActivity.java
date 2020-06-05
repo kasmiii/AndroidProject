@@ -5,7 +5,6 @@ import com.example.mye_commerceapplication.Model.Product;
 import com.example.mye_commerceapplication.Prevalent.Prevalent;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import androidx.annotation.NonNull;
@@ -26,7 +25,6 @@ import android.view.Menu;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.SearchView;
 import android.widget.TextView;
 import android.widget.Toast;
 import java.util.ArrayList;
@@ -38,55 +36,30 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
     private DatabaseReference mProductsRef,mSalesRef;
     private RecyclerView listView;
     private ArrayList<Product> list_products;
-    private SearchView searchView;
-    ProductsAdapter productsAdapter;
-    //private Button homeSearchbtn;
+    private EditText searchView;
+    private Button homeSearchbtn;
     private String word;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
-        mProductsRef= FirebaseDatabase.getInstance().getReference("Products");
+
         Toolbar toolbar = findViewById(R.id.toolbar);
         toolbar.setTitle("Home");
-        loadData();
-        listView =findViewById(R.id.recycler_menu);
-        listView.setLayoutManager(new LinearLayoutManager(HomeActivity.this, RecyclerView.VERTICAL,false));
-        productsAdapter=new ProductsAdapter(HomeActivity.this,list_products);//,HomeActivity.this);
-        listView.setAdapter(productsAdapter);
 
         searchView=this.findViewById(R.id.home_find_text);
-        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
-            @Override
-            public boolean onQueryTextSubmit(String query) {
-                /*
-                word=searchView.getQuery().toString();
-                Toast.makeText(HomeActivity.this, "searched word is : " + word, Toast.LENGTH_SHORT).show();
-                Intent intent = new Intent(HomeActivity.this, SearchActivity.class);
-                intent.putExtra("product_description",word);
-                startActivity(intent);
-                return false;
+        word=searchView.getText().toString();
+        //Prevalent.searchedword=word;
 
-                 */
-                productsAdapter.getFilter().filter(query);
-                return true;
-            }
-
-            @Override
-            public boolean onQueryTextChange(String newText) {
-                productsAdapter.getFilter().filter(newText);
-                return true;
-            }
-        });
         Prevalent.numberOfCommandText=findViewById(R.id.number_of_commands_number);
-        /*
+
         homeSearchbtn=this.findViewById(R.id.home_search_btn);
         homeSearchbtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
-                if(true) {
+                if(TextUtils.isEmpty(word)) {
                     Toast.makeText(HomeActivity.this, "searched word is : " + word, Toast.LENGTH_SHORT).show();
                     Intent intent = new Intent(HomeActivity.this, SearchActivity.class);
                     intent.putExtra("product_description",word);
@@ -97,9 +70,8 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
                 }
             }
         });
-         */
 
-
+        mProductsRef= FirebaseDatabase.getInstance().getReference("Products");
         Paper.init(this);//memorising the name and phoneof connected user...
         setSupportActionBar(toolbar);
         FloatingActionButton fab = findViewById(R.id.fab);
@@ -121,8 +93,8 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
         View headerView=navigationView.getHeaderView(0);
         TextView usernameTextView=headerView.findViewById(R.id.user_profile_name);
         ImageView imageViewName=headerView.findViewById(R.id.user_profile_image);
-        if(Prevalent.currentOnlineUser!=null){        usernameTextView.setText(Prevalent.currentOnlineUser.getName());
-        }
+
+        usernameTextView.setText(Prevalent.currentOnlineUser.getName());
 
         //set the Number of Commands of Client...
         mSalesRef=FirebaseDatabase.getInstance().getReference("ligneCommande").child(Prevalent.currentOnlineUser.getPhone());
@@ -190,10 +162,7 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
         }
 
         else if(id==R.id.nav_boutique){
-            Intent intent=new Intent(HomeActivity.this,SellerMainActivity.class);
-            intent.putExtra("phoneSeller",Prevalent.currentOnlineUser.getPhone());
-            startActivity(intent);
-            finish();
+
         }
         else if (id == R.id.nav_logout)
         {
@@ -209,25 +178,27 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
         return true;
     }
 
-
-    public void loadData(){
+    @Override
+    protected void onStart() {
+        super.onStart();
         list_products=new ArrayList<Product>();
+
         mProductsRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 for (DataSnapshot n:dataSnapshot.getChildren()){
-                    Product note = n.getValue(Product.class);
-                    if(!note.getPhonenumber().equals(Prevalent.currentOnlineUser.getPhone())){
-                        list_products.add(note);
+                        Product note = n.getValue(Product.class);
+                        if(!note.getPhonenumber().equals(Prevalent.currentOnlineUser.getPhone())){
+                            list_products.add(note);
+                        }
                     }
-                }
-                /*
+
                 listView =findViewById(R.id.recycler_menu);
                 listView.setLayoutManager(new LinearLayoutManager(HomeActivity.this, RecyclerView.VERTICAL,false));
 
                 ProductsAdapter productsAdapter=new ProductsAdapter(HomeActivity.this,list_products);//,HomeActivity.this);
                 listView.setAdapter(productsAdapter);
-                 */
+
             }
 
             @Override
@@ -238,4 +209,3 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
     }
 
 }
-

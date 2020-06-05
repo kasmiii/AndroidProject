@@ -29,7 +29,6 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 public class ConfirmFinalOrderActivity extends AppCompatActivity {
@@ -64,6 +63,7 @@ public class ConfirmFinalOrderActivity extends AppCompatActivity {
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) { }
         });
+
 
         confirmOrderBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -137,6 +137,7 @@ public class ConfirmFinalOrderActivity extends AppCompatActivity {
             }
         });
 
+
         System.out.println("next operation .....");
 
         mRefCommande.child(Prevalent.currentOnlineUser.getPhone()).addValueEventListener(new ValueEventListener() {
@@ -150,8 +151,6 @@ public class ConfirmFinalOrderActivity extends AppCompatActivity {
                         public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                             Product p= dataSnapshot.getValue(Product.class);
                             final String phoneSeller = p.getPhonenumber();
-
-                            //recuperation des coordonnes du vendeur du produit concernee
                             String phone_seller=ligne.getTelNumber();
                             String longitude_user="0.00",latitude_user="0.00";
 

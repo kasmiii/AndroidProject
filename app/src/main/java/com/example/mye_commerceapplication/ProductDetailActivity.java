@@ -2,6 +2,7 @@ package com.example.mye_commerceapplication;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -77,7 +78,7 @@ public class ProductDetailActivity extends AppCompatActivity {
         comment_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //System.out.println("comment button is clicked");
+                System.out.println("comment button is clicked");
                 final String idCmt;
                 idCmt="com_"+Prevalent.currentOnlineUser.getPhone()+"_"+productId;
                 Date dateComment=new Date();

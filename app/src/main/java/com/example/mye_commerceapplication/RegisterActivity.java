@@ -89,52 +89,52 @@ public class RegisterActivity extends AppCompatActivity {
     }
 
     private void validatePhoneNumber(final String loginUser, final String phoneUser, final String passwordUser,final String longitude,final String latitude) {
-    final DatabaseReference RootRef;
-    RootRef= FirebaseDatabase.getInstance().getReference();
-    RootRef.addListenerForSingleValueEvent(new ValueEventListener() {
-        @Override
-        public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-            if(!(dataSnapshot.child("users").child(phoneUser).exists())){
+        final DatabaseReference RootRef;
+        RootRef= FirebaseDatabase.getInstance().getReference();
+        RootRef.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                if(!(dataSnapshot.child("users").child(phoneUser).exists())){
 
-                HashMap<String,Object> userDataMap=new HashMap<>();
-                userDataMap.put("phone",phoneUser);
-                userDataMap.put("password",passwordUser);
-                userDataMap.put("name",loginUser);
-                userDataMap.put("longitude",longitude);
-                userDataMap.put("latitude",latitude);
+                    HashMap<String,Object> userDataMap=new HashMap<>();
+                    userDataMap.put("phone",phoneUser);
+                    userDataMap.put("password",passwordUser);
+                    userDataMap.put("name",loginUser);
+                    userDataMap.put("longitude",longitude);
+                    userDataMap.put("latitude",latitude);
 
-                RootRef.child("Users").child(phoneUser).updateChildren(userDataMap).addOnCompleteListener(new OnCompleteListener<Void>() {
-                    @Override
-                    public void onComplete(@NonNull Task<Void> task) {
-                        if (task.isSuccessful()){
-                            Toast.makeText(RegisterActivity.this,"congratulations your account has been created !",Toast.LENGTH_SHORT).show();
-                            loadingDialog.dismiss();
+                    RootRef.child("Users").child(phoneUser).updateChildren(userDataMap).addOnCompleteListener(new OnCompleteListener<Void>() {
+                        @Override
+                        public void onComplete(@NonNull Task<Void> task) {
+                            if (task.isSuccessful()){
+                                Toast.makeText(RegisterActivity.this,"congratulations your account has been created !",Toast.LENGTH_SHORT).show();
+                                loadingDialog.dismiss();
 
-                            Intent intent=new Intent(RegisterActivity.this, LoginActivity.class);
-                            startActivity(intent);
+                                Intent intent=new Intent(RegisterActivity.this, LoginActivity.class);
+                                startActivity(intent);
+                            }
+                            else{
+                                loadingDialog.dismiss();
+                                Toast.makeText(RegisterActivity.this,"Ooops Error Network !",Toast.LENGTH_SHORT).show();
+                            }
+
                         }
-                        else{
-                            loadingDialog.dismiss();
-                            Toast.makeText(RegisterActivity.this,"Ooops Error Network !",Toast.LENGTH_SHORT).show();
-                        }
+                    });
 
-                    }
-                });
+                }
+                else{
+                    Toast.makeText(RegisterActivity.this,"This "+phoneUser+" Already exists",Toast.LENGTH_LONG).show();
+                    loadingDialog.dismiss();
+                    Toast.makeText(RegisterActivity.this,"Try again ",Toast.LENGTH_LONG).show();
+                    Intent intent=new Intent(RegisterActivity.this, MainActivity.class);
+                    startActivity(intent);
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
 
             }
-            else{
-                Toast.makeText(RegisterActivity.this,"This "+phoneUser+" Already exists",Toast.LENGTH_LONG).show();
-                loadingDialog.dismiss();
-                Toast.makeText(RegisterActivity.this,"Try again ",Toast.LENGTH_LONG).show();
-                Intent intent=new Intent(RegisterActivity.this, MainActivity.class);
-                startActivity(intent);
-            }
-        }
-
-        @Override
-        public void onCancelled(@NonNull DatabaseError databaseError) {
-
-        }
-    });
+        });
     }
 }

@@ -109,6 +109,7 @@ public class LoginActivity extends AppCompatActivity {
                         //Toast.makeText(LoginActivity.this,"please enter your login",Toast.LENGTH_SHORT).show();
                         Intent intent=new Intent(LoginActivity.this,HomeActivity.class);
                         Prevalent.currentOnlineUser = usersData;
+                        Prevalent.phoneNumber=usersData.getPhone();
                         startActivity(intent);
                     }
                     else{

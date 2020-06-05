@@ -5,6 +5,8 @@ import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Filter;
+import android.widget.Filterable;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -13,16 +15,22 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.mye_commerceapplication.Model.Product;
 import com.squareup.picasso.Picasso;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.List;
 
- class ProductsAdapter extends RecyclerView.Adapter<ProductsAdapter.ViewHolder> {
+class ProductsAdapter extends RecyclerView.Adapter<ProductsAdapter.ViewHolder> implements Filterable {
 
      public Context context;
      public ArrayList<Product> list;
+     public ArrayList<Product> mFilteredList;
+     public MyFilter mFilter;
 
-     public ProductsAdapter(Context context, ArrayList<Product> list){//, OnProductListener mOnProductListener) {
+
+    public ProductsAdapter(Context context, ArrayList<Product> list){//, OnProductListener mOnProductListener) {
          this.context = context;
          this.list = list;
+         this.mFilteredList=new ArrayList<Product>();
      }
 
      @NonNull
@@ -64,6 +72,16 @@ import java.util.ArrayList;
 
     }
 
+    @Override
+    public Filter getFilter() {
+        if (mFilter == null){
+            mFilteredList.clear();
+            mFilteredList.addAll(this.list);
+            mFilter = new ProductsAdapter.MyFilter(this,mFilteredList);
+        }
+        return mFilter;
+    }
+
     class ViewHolder extends RecyclerView.ViewHolder {// implements View.OnClickListener
 
         //OnProductListener onProductListener;
@@ -82,4 +100,48 @@ import java.util.ArrayList;
 
         }
     }
+
+     private static class MyFilter extends Filter {
+
+         private final ProductsAdapter myAdapter;
+         private final ArrayList<Product> originalList;
+         private final ArrayList<Product> filteredList;
+
+         private MyFilter(ProductsAdapter myAdapter, ArrayList<Product> originalList) {
+             this.myAdapter = myAdapter;
+             this.originalList = originalList;
+             this.filteredList = new ArrayList<Product>();
+         }
+
+         @Override
+         protected FilterResults performFiltering(CharSequence charSequence) {
+
+             filteredList.clear();
+             final FilterResults results = new FilterResults();
+             if (charSequence.length() == 0){
+                 filteredList.addAll(originalList);
+             }else {
+                 final String filterPattern = charSequence.toString().toLowerCase().trim();
+                 for ( Product prod : originalList){
+                     if (prod.getDescription().toLowerCase().contains(filterPattern)){
+                         filteredList.add(prod);
+                     }
+                 }
+             }
+
+             results.values = filteredList;
+             results.count = filteredList.size();
+             return results;
+
+         }
+
+         @Override
+         protected void publishResults(CharSequence charSequence, FilterResults filterResults) {
+
+             myAdapter.list.clear();
+             myAdapter.list.addAll((ArrayList<Product>)filterResults.values);
+             myAdapter.notifyDataSetChanged();
+
+         }
+     }
 }
